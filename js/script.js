@@ -7,7 +7,8 @@ function Gameboard() {
             board[i].push("Empty");
         }
     }
-    console.log(board)
-}
+    
+    const getBoard = () => board;
 
-Gameboard()
+    return { getBoard };
+}
