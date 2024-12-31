@@ -59,6 +59,8 @@ function gameController() {
         activePlayer = activePlayer === players[0] ? players[1] : players[0];
     }
 
+    const getActivePlayer = () => activePlayer;
+
     const printNewRound = () => {
         console.log(`${activePlayer.name}'s turn:`);
         board.printBoard();
@@ -66,14 +68,14 @@ function gameController() {
 
     const playRound = (row, column) => {
         console.log(`Placing a ${activePlayer.token} at row ${row}, column ${column}...`);
-        board.placeToken(row, column, activePlayer.token);
+        board.placeToken(row, column, getActivePlayer().token);
         switchPlayer();
         printNewRound();
     }
 
     printNewRound();
 
-    return { printNewRound, switchPlayer, playRound }
+    return { getActivePlayer, playRound }
 
 }
 
