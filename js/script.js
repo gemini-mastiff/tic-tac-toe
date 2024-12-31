@@ -38,9 +38,18 @@ function gameController() {
             name : "Player 2",
             token : 2,
         }
-    ] 
+    ];
+
+    const printNewRound = () => {
+        console.log("Player 1's Turn:");
+        board.printBoard();
+    }
+
+    printNewRound();
+
 }
 
+const game = gameController()
 
 // LOOP:
 // new board is created, 0 in all cells
