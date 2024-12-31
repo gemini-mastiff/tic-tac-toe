@@ -12,7 +12,13 @@ function createGameboard() {
 
     const placeToken = (row, column, token) => {
         const cell = board[row][column];
-        cell.changeValue(token);
+        if(cell.getValue() != 0){
+            console.log(`Invalid! ${row}, ${column} is already taken!`)
+            return
+        }
+        else {
+            cell.changeValue(token);
+        }
     }
 
     const printBoard = () => {
@@ -50,7 +56,7 @@ function gameController() {
     let activePlayer = players[0];
 
     const switchPlayer = () => {
-        activePlayer = players[0] ? players[1] : players[0];
+        activePlayer = activePlayer === players[0] ? players[1] : players[0];
     }
 
     const printNewRound = () => {
