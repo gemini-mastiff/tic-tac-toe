@@ -9,8 +9,8 @@ function createGameboard() {
     }
     
     const getBoard = () => board;
-
-    const validate = (row, column) => {
+    
+    const validateCell = (row, column) => {
         const cell = board[row][column];
         if(cell.getValue() != 0){
             return false;
@@ -30,7 +30,7 @@ function createGameboard() {
         console.log(boardWithCellValues);
     }
 
-    return { getBoard, placeToken, printBoard, validate };
+    return { getBoard, validateCell, placeToken, printBoard};
 }
 
 function newCell() {
@@ -66,15 +66,18 @@ function gameController() {
     const getActivePlayer = () => activePlayer;
 
     const printNewRound = () => {
-        console.log(`${activePlayer.name}'s turn:`);
+        console.log(`${getActivePlayer().name}'s turn:`);
         board.printBoard();
     }
 
     const playRound = (row, column) => {
-        const validation = board.validate(row, column);
+        // This validation step ensures that if a player selects an occupied
+        // cell, they can take another turn and select a different cell
+        const validation = board.validateCell(row, column);
         if (validation === true) {
-            console.log(`Placing a ${activePlayer.token} at row ${row}, column ${column}...`);
+            console.log(`Placing a ${getActivePlayer().token} at row ${row}, column ${column}...`);
             board.placeToken(row, column, getActivePlayer().token);
+            // The players switch only when a token has been dropped
             switchPlayer();
         } else {
             console.log(`Invalid! ${row}, ${column} is already taken!`)
