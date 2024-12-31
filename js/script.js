@@ -29,8 +29,32 @@ function newCell() {
 function gameController() {
     const board = createGameboard();
 
-    const player = {
-        name : "Player 1",
-        token : 1,
-    }
+    const players = [
+        {
+            name : "Player 1",
+            token : 1,
+        },
+        {
+            name : "Player 2",
+            token : 2,
+        }
+    ] 
 }
+
+
+// LOOP:
+// new board is created, 0 in all cells
+// PLAYER 1 TURN:
+// print empty board
+// Player 1 selects cell
+// Cell value changed to 1
+// PLAYER 2 TURN:
+// print board 
+// Player 2 selects cell
+// controller validates if the cell has been taken already
+// if it has, prompt again
+// if not, Cell value to 2
+// REPEAT
+// Check for success states (3 in a row, any direction)
+// check for winner, declare winner
+// end game
