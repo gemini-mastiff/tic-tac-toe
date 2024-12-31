@@ -21,9 +21,7 @@ function createGameboard() {
 function newCell() {
     let value = 0
 
-    const changeValue = (player) => {
-        value = player.token;
-    }
+    const changeValue = (player) => value = player.token;
 
     const getValue = () => value;
 
