@@ -20,3 +20,12 @@ function newCell() {
 
     return { getValue }
 }
+
+function gameController() {
+    const board = createGameboard();
+
+    const player = {
+        name : "Player 1",
+        token : 1,
+    }
+}
