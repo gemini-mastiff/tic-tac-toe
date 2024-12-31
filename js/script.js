@@ -10,7 +10,12 @@ function createGameboard() {
     
     const getBoard = () => board;
 
-    return { getBoard };
+    const printBoard = () => {
+        const boardWithCellValues = board.map((row => row.map((cell => cell.getValue()))));
+        console.log(boardWithCellValues);
+    }
+
+    return { getBoard, printBoard };
 }
 
 function newCell() {
