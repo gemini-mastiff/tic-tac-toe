@@ -21,9 +21,13 @@ function createGameboard() {
 function newCell() {
     let value = 0
 
+    const changeValue = (player) => {
+        value = player.token;
+    }
+
     const getValue = () => value;
 
-    return { getValue }
+    return { getValue, changeValue }
 }
 
 function gameController() {
@@ -46,6 +50,8 @@ function gameController() {
     }
 
     printNewRound();
+
+    return { printNewRound }
 
 }
 
