@@ -10,12 +10,17 @@ function createGameboard() {
     
     const getBoard = () => board;
 
+    const placeToken = (row, column, token) => {
+        const cell = board[row][column];
+        cell.changeValue(token);
+    }
+
     const printBoard = () => {
         const boardWithCellValues = board.map((row => row.map((cell => cell.getValue()))));
         console.log(boardWithCellValues);
     }
 
-    return { getBoard, printBoard };
+    return { getBoard, placeToken, printBoard };
 }
 
 function newCell() {
@@ -55,7 +60,7 @@ function gameController() {
 
     const playRound = (row, column) => {
         console.log(`Placing a ${activePlayer.token} at row ${row}, column ${column}...`);
-        // board.placeToken(row, column, activePlayer);
+        board.placeToken(row, column, activePlayer.token);
         switchPlayer();
         printNewRound();
     }
