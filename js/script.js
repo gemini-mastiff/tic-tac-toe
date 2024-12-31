@@ -1,4 +1,4 @@
-function Gameboard() {
+function createGameboard() {
     const board = []
 
     for (let i = 0; i < 3; i++) {
