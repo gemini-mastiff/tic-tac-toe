@@ -1,17 +1,14 @@
 function createGameboard() {
     const board = []
 
-    for (let i = 0; i < 3; i++) {
-        board[i] = [];
-        for (let j = 0; j < 3; j++) {
-            board[i].push(newCell());
-        }
+    for (let i = 0; i < 9; i++) {
+        board.push(newCell());
     }
-    
+
     const getBoard = () => board;
     
-    const validateCell = (row, column) => {
-        const cell = board[row][column];
+    const validateCell = (index) => {
+        const cell = board[index];
         if(cell.getValue() != 0){
             return false;
         }
@@ -20,14 +17,24 @@ function createGameboard() {
         }
     }
 
-    const placeToken = (row, column, token) => {
-        const cell = board[row][column];
+    const placeToken = (index, token) => {
+        const cell = board[index];
         cell.changeValue(token);
     }
-
+    
     const printBoard = () => {
-        const boardWithCellValues = board.map((row => row.map((cell => cell.getValue()))));
-        console.log(boardWithCellValues);
+        const boardWithCellValues = board.map(cell => cell.getValue());
+        let boardString = '';
+        let counter = 0
+        boardWithCellValues.forEach((i) => {
+            boardString += i;
+            counter++
+            if (counter === 3){
+                boardString += `\n`;
+                counter = 0;
+            }
+        });
+        console.log(boardString);
     }
 
     return { getBoard, validateCell, placeToken, printBoard};
@@ -70,17 +77,18 @@ function gameController() {
         board.printBoard();
     }
 
-    const playRound = (row, column) => {
+    const playRound = (number) => {
+        index = number-1
         // This validation step ensures that if a player selects an occupied
         // cell, they can take another turn and select a different cell
-        const validation = board.validateCell(row, column);
+        const validation = board.validateCell(index);
         if (validation === true) {
-            console.log(`Placing a ${getActivePlayer().token} at row ${row}, column ${column}...`);
-            board.placeToken(row, column, getActivePlayer().token);
+            console.log(`Placing a ${getActivePlayer().token} at position ${number}...`);
+            board.placeToken(index, getActivePlayer().token);
             // The players switch only when a token has been dropped
             switchPlayer();
         } else {
-            console.log(`Invalid! ${row}, ${column} is already taken!`)
+            console.log(`Invalid! Position ${number} is already taken!`)
         }
         printNewRound();
     }
@@ -109,3 +117,26 @@ const game = gameController()
 // Check for success states (3 in a row, any direction)
 // check for winner, declare winner
 // end game
+
+
+
+// FULL BOARD:
+// boardWithCellValues.forEach(row => {
+//     if (row.includes(0)){
+//         continue;
+//     } else {
+//         game.gameOver(); 
+//     }
+// })
+
+// 
+
+// DIAGONALS:
+// if (board[0][0].getValue() === player.token
+//     && board[1][1].getValue() === player.token
+//     && board[2][2].getValue() === player.token
+//     || board[0][2].getValue() === player.token
+//     && board[1][1].getValue() === player.token
+//     && board[2][0].getValue() === player.token){
+//          return WIN YAYYYY
+// }
