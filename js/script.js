@@ -10,15 +10,19 @@ function createGameboard() {
     
     const getBoard = () => board;
 
-    const placeToken = (row, column, token) => {
+    const validate = (row, column) => {
         const cell = board[row][column];
         if(cell.getValue() != 0){
-            console.log(`Invalid! ${row}, ${column} is already taken!`)
-            return
+            return false;
         }
         else {
-            cell.changeValue(token);
+            return true;
         }
+    }
+
+    const placeToken = (row, column, token) => {
+        const cell = board[row][column];
+        cell.changeValue(token);
     }
 
     const printBoard = () => {
@@ -26,7 +30,7 @@ function createGameboard() {
         console.log(boardWithCellValues);
     }
 
-    return { getBoard, placeToken, printBoard };
+    return { getBoard, placeToken, printBoard, validate };
 }
 
 function newCell() {
@@ -67,9 +71,14 @@ function gameController() {
     }
 
     const playRound = (row, column) => {
-        console.log(`Placing a ${activePlayer.token} at row ${row}, column ${column}...`);
-        board.placeToken(row, column, getActivePlayer().token);
-        switchPlayer();
+        const validation = board.validate(row, column);
+        if (validation === true) {
+            console.log(`Placing a ${activePlayer.token} at row ${row}, column ${column}...`);
+            board.placeToken(row, column, getActivePlayer().token);
+            switchPlayer();
+        } else {
+            console.log(`Invalid! ${row}, ${column} is already taken!`)
+        }
         printNewRound();
     }
 
