@@ -21,7 +21,7 @@ function createGameboard() {
 function newCell() {
     let value = 0
 
-    const changeValue = (player) => value = player.token;
+    const changeValue = (player) => value = player;
 
     const getValue = () => value;
 
@@ -42,14 +42,20 @@ function gameController() {
         }
     ];
 
+    let activePlayer = players[0];
+
+    const switchPlayer = () => {
+        activePlayer = players[0] ? players[1] : players[0];
+    }
+
     const printNewRound = () => {
-        console.log("Player 1's Turn:");
+        console.log(`${activePlayer.name}'s turn:`);
         board.printBoard();
     }
 
     printNewRound();
 
-    return { printNewRound }
+    return { printNewRound, switchPlayer }
 
 }
 
