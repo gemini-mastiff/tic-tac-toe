@@ -53,9 +53,16 @@ function gameController() {
         board.printBoard();
     }
 
+    const playRound = (row, column) => {
+        console.log(`Placing a ${activePlayer.token} at row ${row}, column ${column}...`);
+        // board.placeToken(row, column, activePlayer);
+        switchPlayer();
+        printNewRound();
+    }
+
     printNewRound();
 
-    return { printNewRound, switchPlayer }
+    return { printNewRound, switchPlayer, playRound }
 
 }
 
