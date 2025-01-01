@@ -79,10 +79,10 @@ function gameController() {
 
     const gameOver = (result) => {
         console.log("Game Over!");
-        if (result) {
-            console.log(`${result} wins!`);
-        } else {
+        if (result === "tie") {
             console.log("It's a tie!");
+        } else {
+            console.log(`${result} wins!`);
         }
     }
     
@@ -98,7 +98,7 @@ function gameController() {
         const diaWinOne = [0, 4, 8].map(x => boardWithCellValues[x]);
         const diaWinTwo = [2, 4, 6].map(x => boardWithCellValues[x]);
         if (!boardWithCellValues.includes(0)){
-            gameOver(false);
+            return "tie";
         } else if (rowWinOne.every(token)
             || rowWinTwo.every(token)
             || rowWinThr.every(token)
@@ -107,7 +107,7 @@ function gameController() {
             || colWinThr.every(token)
             || diaWinOne.every(token)
             || diaWinTwo.every(token)) {
-            gameOver(player.name);
+            return player.name;
         } else {
             return;
         }
@@ -121,9 +121,13 @@ function gameController() {
         if (validation === true) {
             console.log(`Placing a ${getActivePlayer().token} at position ${number}...`);
             board.placeToken(index, getActivePlayer().token);
-            checkWinner(getActivePlayer());
+            const winner = checkWinner(getActivePlayer());
+            if (winner){
+                gameOver(winner);
+                return;
+            }
             // The players switch only when a token has been dropped
-            switchPlayer();
+            // switchPlayer();
         } else {
             console.log(`Invalid! Position ${number} is already taken!`)
         }
@@ -132,7 +136,7 @@ function gameController() {
 
     printNewRound();
 
-    return { getActivePlayer, playRound, checkWinner }
+    return { getActivePlayer, playRound }
 
 }
 
