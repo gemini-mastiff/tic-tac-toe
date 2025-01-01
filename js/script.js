@@ -77,6 +77,42 @@ function gameController() {
         board.printBoard();
     }
 
+    const gameOver = (result) => {
+        console.log("Game Over!");
+        if (result) {
+            console.log(`${result} wins!`);
+        } else {
+            console.log("It's a tie!");
+        }
+    }
+    
+    const checkWinner = (player) => {
+        const boardWithCellValues = board.getBoard().map(cell => cell.getValue());
+        const token = (val) => val === player.token;
+        const rowWinOne = [0, 1, 2].map(x => boardWithCellValues[x]);
+        const rowWinTwo = [3, 4, 5].map(x => boardWithCellValues[x]);
+        const rowWinThr = [6, 7, 8].map(x => boardWithCellValues[x]);
+        const colWinOne = [0, 3, 6].map(x => boardWithCellValues[x]);
+        const colWinTwo = [1, 4, 7].map(x => boardWithCellValues[x]);
+        const colWinThr = [2, 5, 8].map(x => boardWithCellValues[x]);
+        const diaWinOne = [0, 4, 8].map(x => boardWithCellValues[x]);
+        const diaWinTwo = [2, 4, 6].map(x => boardWithCellValues[x]);
+        if (!boardWithCellValues.includes(0)){
+            gameOver(false);
+        } else if (rowWinOne.every(token)
+            || rowWinTwo.every(token)
+            || rowWinThr.every(token)
+            || colWinOne.every(token)
+            || colWinTwo.every(token)
+            || colWinThr.every(token)
+            || diaWinOne.every(token)
+            || diaWinTwo.every(token)) {
+            gameOver(player.name);
+        } else {
+            return;
+        }
+    }
+
     const playRound = (number) => {
         index = number-1
         // This validation step ensures that if a player selects an occupied
@@ -85,6 +121,7 @@ function gameController() {
         if (validation === true) {
             console.log(`Placing a ${getActivePlayer().token} at position ${number}...`);
             board.placeToken(index, getActivePlayer().token);
+            checkWinner(getActivePlayer());
             // The players switch only when a token has been dropped
             switchPlayer();
         } else {
@@ -95,7 +132,7 @@ function gameController() {
 
     printNewRound();
 
-    return { getActivePlayer, playRound }
+    return { getActivePlayer, playRound, checkWinner }
 
 }
 
@@ -117,26 +154,3 @@ const game = gameController()
 // Check for success states (3 in a row, any direction)
 // check for winner, declare winner
 // end game
-
-
-
-// FULL BOARD:
-// boardWithCellValues.forEach(row => {
-//     if (row.includes(0)){
-//         continue;
-//     } else {
-//         game.gameOver(); 
-//     }
-// })
-
-// 
-
-// DIAGONALS:
-// if (board[0][0].getValue() === player.token
-//     && board[1][1].getValue() === player.token
-//     && board[2][2].getValue() === player.token
-//     || board[0][2].getValue() === player.token
-//     && board[1][1].getValue() === player.token
-//     && board[2][0].getValue() === player.token){
-//          return WIN YAYYYY
-// }
