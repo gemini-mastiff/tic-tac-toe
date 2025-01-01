@@ -1,5 +1,5 @@
 function createGameboard() {
-    const board = []
+    const board = [];
 
     for (let i = 0; i < 9; i++) {
         board.push(newCell());
@@ -25,10 +25,10 @@ function createGameboard() {
     const printBoard = () => {
         const boardWithCellValues = board.map(cell => cell.getValue());
         let boardString = '';
-        let counter = 0
+        let counter = 0;
         boardWithCellValues.forEach((i) => {
             boardString += i;
-            counter++
+            counter++;
             if (counter === 3){
                 boardString += `\n`;
                 counter = 0;
@@ -41,7 +41,7 @@ function createGameboard() {
 }
 
 function newCell() {
-    let value = 0
+    let value = 0;
 
     const changeValue = (player) => value = player;
 
@@ -128,9 +128,9 @@ function gameController() {
                 return;
             }
             // The players switch only when a token has been dropped
-            // switchPlayer();
+            switchPlayer();
         } else {
-            console.log(`Invalid! Position ${number} is already taken!`)
+            console.log(`Invalid! Position ${number} is already taken!`);
         }
         printNewRound();
     }
@@ -138,24 +138,6 @@ function gameController() {
     printNewRound();
 
     return { getActivePlayer, playRound }
-
 }
 
 const game = gameController()
-
-// LOOP:
-// new board is created, 0 in all cells
-// PLAYER 1 TURN:
-// print empty board
-// Player 1 selects cell
-// Cell value changed to 1
-// PLAYER 2 TURN:
-// print board 
-// Player 2 selects cell
-// controller validates if the cell has been taken already
-// if it has, prompt again
-// if not, Cell value to 2
-// REPEAT
-// Check for success states (3 in a row, any direction)
-// check for winner, declare winner
-// end game
