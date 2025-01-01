@@ -73,11 +73,12 @@ function gameController() {
     const getActivePlayer = () => activePlayer;
 
     const printNewRound = () => {
-        console.log(`${getActivePlayer().name}'s turn:`);
         board.printBoard();
+        console.log(`${getActivePlayer().name}'s turn:`);
     }
 
     const gameOver = (result) => {
+        board.printBoard();
         console.log("Game Over!");
         if (result === "tie") {
             console.log("It's a tie!");
