@@ -13,8 +13,24 @@ menu, nav, output, ruby, section, summary,
 time, mark, audio, video {
 	margin: 0;
 	padding: 0;
-	border: 0;
+	border: 1px solid red;
 	font-size: 100%;
 	font: inherit;
 	vertical-align: baseline;
+}
+
+:root{
+    --MAIN-COLOUR: #fafaf9;
+    --BG-COLOUR: #e5e7eb;
+    --ACCENT-1: #0ea5e9;
+    --ACCENT-2: #facc15;
+    font-family: 'Roboto Flex', sans-serif;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+body{
+    height: 100vh;
+    width: 100%;
+    background-color: var(--BG-COLOUR);
 }
