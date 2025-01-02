@@ -52,6 +52,7 @@ function Cell() {
 
 function domManipulation() {
     const commentary = document.querySelector("#commentary");
+    const victory = document.querySelector("#victory")
     const domBoard = document.querySelector("#board");
     
     const board = Gameboard();
@@ -84,7 +85,11 @@ function domManipulation() {
         boardWithCellValues.forEach(cell => generateDomCell(cell));
     }
 
-    return { updateDomBoard }
+    const updateText = (text, v = false) => {
+        !v ? commentary.textContent = text : victory.textContent = text;
+    }
+
+    return { updateDomBoard, updateText}
 
 }
 
@@ -100,8 +105,7 @@ function gameController() {
         {
             name : "Player 2",
             token : 2,
-        }
-    ];
+        }];
 
     let activePlayer = players[0];
 
@@ -114,17 +118,17 @@ function gameController() {
     const printNewRound = () => {
         board.printBoard();
         dom.updateDomBoard(board);
-        console.log(`${getActivePlayer().name}'s turn:`);
+        dom.updateText(`${getActivePlayer().name}'s turn:`);
     }
 
     const gameOver = (result) => {
         board.printBoard();
         dom.updateDomBoard(board);
-        console.log("Game Over!");
+        dom.updateText(`Game Over!`, "victory");
         if (result === "tie") {
-            console.log("It's a tie!");
+            dom.updateText(`It's a tie!`);
         } else {
-            console.log(`${result} wins!`);
+            dom.updateText(`${result} wins!`);
         }
     }
     
