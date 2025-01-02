@@ -54,4 +54,27 @@ main{
 .grid-wrapper{
     height: 500px;
     width: 500px;
+    background-color: var(--MAIN-COLOUR);
+    border-radius: 2rem;
+    box-shadow: 2px 3px 5px 0px #BCBCBC;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.board{
+    height: calc(100% - 2rem);
+    width: calc(100% - 2rem);
+    background-color: var(--BG-COLOUR);
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    gap: 0.5rem;
+}
+
+.board>div{
+    background-color: var(--MAIN-COLOUR);
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
