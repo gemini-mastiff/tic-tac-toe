@@ -34,3 +34,24 @@ body{
     width: 100%;
     background-color: var(--BG-COLOUR);
 }
+
+main{
+    width: 80%;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+}
+
+.text-wrapper{
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.grid-wrapper{
+    height: 500px;
+    width: 500px;
+}
