@@ -50,6 +50,44 @@ function Cell() {
     return { getValue, changeValue }
 }
 
+function domManipulation() {
+    const commentary = document.querySelector("#commentary");
+    const domBoard = document.querySelector("#board");
+    
+    const board = Gameboard();
+
+    const generateDomCell = (cell) => {
+        const domCell = document.createElement("div");
+        domCell.classList.add("cell")
+        if (cell === 1) {
+            const cross = document.createElement("img");
+            cross.setAttribute("src", "svg/close.svg");
+            domCell.appendChild(cross);
+        } else if (cell === 2) {
+            const nought = document.createElement("img");
+            nought.setAttribute("src", "svg/circle-outline.svg");
+            domCell.appendChild(nought);
+        }
+        domBoard.appendChild(domCell);
+    }
+
+    const eraseDomBoard = () => {
+        const allDomCells = document.querySelectorAll(".cell");
+        allDomCells.forEach(domCell => {
+            domCell.remove();
+        });
+    }
+
+    const updateDomBoard = (board) => {
+        const boardWithCellValues = board.getBoard().map(cell => cell.getValue());
+        eraseDomBoard();
+        boardWithCellValues.forEach(cell => generateDomCell(cell));
+    }
+
+    return { updateDomBoard }
+
+}
+
 function gameController() {
     const board = Gameboard();
     const dom = domManipulation();
@@ -75,7 +113,7 @@ function gameController() {
 
     const printNewRound = () => {
         board.printBoard();
-        dom.updateDomBoard();
+        dom.updateDomBoard(board);
         console.log(`${getActivePlayer().name}'s turn:`);
     }
 
@@ -122,7 +160,6 @@ function gameController() {
         // cell, they can take another turn and select a different cell
         const validation = board.validateCell(index);
         if (validation === true) {
-            console.log(`Placing a ${getActivePlayer().token} at position ${number}...`);
             board.placeToken(index, getActivePlayer().token);
             const winner = checkWinner(getActivePlayer());
             if (winner){
@@ -140,43 +177,6 @@ function gameController() {
     printNewRound();
 
     return { getActivePlayer, playRound }
-}
-
-function domManipulation() {
-    const commentary = document.querySelector("#commentary");
-    const domBoard = document.querySelector("#board");
-    const board = Gameboard()
-
-    const generateDomCell = (cell) => {
-        const domCell = document.createElement("div");
-        domCell.classList.add("cell")
-        if (cell.getValue() === 1) {
-            const cross = document.createElement("img");
-            cross.setAttribute("src", "svg/close.svg");
-            domCell.appendChild(cross);
-        } else if (cell.getValue() === 2) {
-            const nought = document.createElement("img");
-            nought.setAttribute("src", "svg/circle-outline.svg");
-            domCell.appendChild(nought);
-        }
-        domBoard.appendChild(domCell);
-    }
-
-    const eraseDomBoard = () => {
-        const allDomCells = document.querySelectorAll(".cell");
-        allDomCells.forEach(domCell => {
-            domCell.remove();
-        });
-    }
-
-    const updateDomBoard = () => {
-        eraseDomBoard();
-        const arr = board.getBoard().slice().reverse();
-        arr.forEach(cell => generateDomCell(cell));
-    }
-
-    return { updateDomBoard }
-
 }
 
 const game = gameController()
