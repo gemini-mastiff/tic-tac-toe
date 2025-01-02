@@ -119,6 +119,7 @@ function gameController() {
 
     const gameOver = (result) => {
         board.printBoard();
+        dom.updateDomBoard(board);
         console.log("Game Over!");
         if (result === "tie") {
             console.log("It's a tie!");
