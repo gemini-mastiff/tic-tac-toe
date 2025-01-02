@@ -52,6 +52,7 @@ function Cell() {
 
 function gameController() {
     const board = Gameboard();
+    const dom = domManipulation();
 
     const players = [
         {
@@ -74,6 +75,7 @@ function gameController() {
 
     const printNewRound = () => {
         board.printBoard();
+        dom.updateDomBoard();
         console.log(`${getActivePlayer().name}'s turn:`);
     }
 
@@ -145,23 +147,32 @@ function domManipulation() {
     const domBoard = document.querySelector("#board");
     const board = Gameboard()
 
-    const generateDiv = (cell) => {
-        const div = document.createElement("div");
+    const generateDomCell = (cell) => {
+        const domCell = document.createElement("div");
+        domCell.classList.add("cell")
         if (cell.getValue() === 1) {
             const cross = document.createElement("img");
             cross.setAttribute("src", "svg/close.svg");
-            div.appendChild(cross);
+            domCell.appendChild(cross);
         } else if (cell.getValue() === 2) {
             const nought = document.createElement("img");
             nought.setAttribute("src", "svg/circle-outline.svg");
-            div.appendChild(nought);
+            domCell.appendChild(nought);
         }
-        domBoard.appendChild(div);
+        domBoard.appendChild(domCell);
+    }
+
+    const eraseDomBoard = () => {
+        const allDomCells = document.querySelectorAll(".cell");
+        allDomCells.forEach(domCell => {
+            domCell.remove();
+        });
     }
 
     const updateDomBoard = () => {
+        eraseDomBoard();
         const arr = board.getBoard().slice().reverse();
-        arr.forEach(generateDiv(cell));
+        arr.forEach(cell => generateDomCell(cell));
     }
 
     return { updateDomBoard }
