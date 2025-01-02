@@ -57,9 +57,10 @@ function domManipulation() {
     
     const board = Gameboard();
 
-    const generateDomCell = (cell) => {
+    const generateDomCell = (cell, index) => {
         const domCell = document.createElement("div");
         domCell.classList.add("cell")
+        domCell.setAttribute("data-index", index);
         if (cell === 1) {
             const cross = document.createElement("img");
             cross.setAttribute("src", "svg/close.svg");
@@ -82,10 +83,20 @@ function domManipulation() {
     const updateDomBoard = (board) => {
         const boardWithCellValues = board.getBoard().map(cell => cell.getValue());
         eraseDomBoard();
-        boardWithCellValues.forEach(cell => generateDomCell(cell));
+        boardWithCellValues.forEach(generateDomCell);
+
+        const allDomCells = document.querySelectorAll(".cell");
+        allDomCells.forEach((domCell) => {
+            const index = domCell.dataset.index;
+            domCell.addEventListener("click", () => {
+                console.log(index)
+                game.playRound(index)
+               });
+           }); 
     }
 
     const updateText = (text, v = false) => {
+        // victory will only update when called the argument is passed
         !v ? commentary.textContent = text : victory.textContent = text;
     }
 
@@ -124,7 +135,7 @@ function gameController() {
     const gameOver = (result) => {
         board.printBoard();
         dom.updateDomBoard(board);
-        dom.updateText(`Game Over!`, "victory");
+        dom.updateText(`Game Over!`, true);
         if (result === "tie") {
             dom.updateText(`It's a tie!`);
         } else {
@@ -159,8 +170,7 @@ function gameController() {
         }
     }
 
-    const playRound = (number) => {
-        index = number-1
+    const playRound = (index) => {
         // This validation step ensures that if a player selects an occupied
         // cell, they can take another turn and select a different cell
         const validation = board.validateCell(index);
