@@ -13,7 +13,7 @@ menu, nav, output, ruby, section, summary,
 time, mark, audio, video {
 	margin: 0;
 	padding: 0;
-	border: 1px solid red;
+	/* border: 1px solid red; */
 	font-size: 100%;
 	font: inherit;
 	vertical-align: baseline;
@@ -44,12 +44,26 @@ main{
     gap: 2rem;
 }
 
+/* TEXT */
+
 .text-wrapper{
     margin-top: 2rem;
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
 }
+
+h1{
+    font-size: 2rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+p{
+    text-align: center;
+}
+
+/* BOARD */
 
 .grid-wrapper{
     height: 500px;
