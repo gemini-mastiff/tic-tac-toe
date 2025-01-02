@@ -175,6 +175,7 @@ function gameController() {
         // cell, they can take another turn and select a different cell
         const validation = board.validateCell(index);
         if (validation === true) {
+            dom.updateText(``, true)
             board.placeToken(index, getActivePlayer().token);
             const winner = checkWinner(getActivePlayer());
             if (winner){
@@ -184,7 +185,7 @@ function gameController() {
             // The players switch only when a token has been dropped
             switchPlayer();
         } else {
-            console.log(`Invalid! Position ${number} is already taken!`);
+            dom.updateText(`Invalid! This space is already taken!`, true);
         }
         printNewRound();
     }
