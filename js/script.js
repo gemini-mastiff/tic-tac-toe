@@ -1,8 +1,8 @@
-function createGameboard() {
+function Gameboard() {
     const board = [];
 
     for (let i = 0; i < 9; i++) {
-        board.push(newCell());
+        board.push(Cell());
     }
 
     const getBoard = () => board;
@@ -40,7 +40,7 @@ function createGameboard() {
     return { getBoard, validateCell, placeToken, printBoard};
 }
 
-function newCell() {
+function Cell() {
     let value = 0;
 
     const changeValue = (player) => value = player;
@@ -51,7 +51,7 @@ function newCell() {
 }
 
 function gameController() {
-    const board = createGameboard();
+    const board = Gameboard();
 
     const players = [
         {
@@ -138,6 +138,10 @@ function gameController() {
     printNewRound();
 
     return { getActivePlayer, playRound }
+}
+
+function domManipulation() {
+    const board = Gameboard()
 }
 
 const game = gameController()
