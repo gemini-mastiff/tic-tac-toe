@@ -141,7 +141,31 @@ function gameController() {
 }
 
 function domManipulation() {
+    const commentary = document.querySelector("#commentary");
+    const domBoard = document.querySelector("#board");
     const board = Gameboard()
+
+    const generateDiv = (cell) => {
+        const div = document.createElement("div");
+        if (cell.getValue() === 1) {
+            const cross = document.createElement("img");
+            cross.setAttribute("src", "svg/close.svg");
+            div.appendChild(cross);
+        } else if (cell.getValue() === 2) {
+            const nought = document.createElement("img");
+            nought.setAttribute("src", "svg/circle-outline.svg");
+            div.appendChild(nought);
+        }
+        domBoard.appendChild(div);
+    }
+
+    const updateDomBoard = () => {
+        const arr = board.getBoard().slice().reverse();
+        arr.forEach(generateDiv(cell));
+    }
+
+    return { updateDomBoard }
+
 }
 
 const game = gameController()
