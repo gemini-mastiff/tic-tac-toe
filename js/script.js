@@ -52,12 +52,9 @@ function Cell() {
 
 function domManipulation() {
     const commentary = document.querySelector("#commentary");
-    const victory = document.querySelector("#victory")
     const domBoard = document.querySelector("#board");
     const playerNames = document.querySelectorAll("[data-editable]")
     
-    // const board = Gameboard();
-
     const generateDomCell = (cell, index) => {
         const domCell = document.createElement("div");
         domCell.classList.add("cell")
@@ -95,9 +92,8 @@ function domManipulation() {
            }); 
     }
 
-    const updateText = (text, v = false) => {
-        // victory will only update when called the optional argument is passed
-        !v ? commentary.textContent = text : victory.textContent = text;
+    const updateText = (text) => {
+        commentary.textContent = text
     }
 
     const changeNames = (e) => {
@@ -177,12 +173,13 @@ function gameController() {
     const gameOver = (result) => {
         board.printBoard();
         dom.updateDomBoard(board);
-        dom.updateText(`Game Over!`, true);
+        let gameOverText = `Game Over!\r\n`
         if (result === "tie") {
-            dom.updateText(`It's a tie!`);
+            gameOverText +=`It's a tie!`
         } else {
-            dom.updateText(`${result} wins!`);
+            gameOverText += `${result} wins!`
         }
+        dom.updateText(gameOverText);
     }
     
     const checkWinner = (player) => {
