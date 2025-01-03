@@ -106,14 +106,16 @@ function domManipulation() {
         const input = document.createElement("input");
         input.setAttribute("value", prevLabel.textContent);
         prevLabel.replaceWith(input);
+        input.select()
       
         const save = function() {
-          const newLabel = document.createElement(prevLabel.tagName.toLowerCase());
-          newLabel.setAttribute("data-player", playerIndex)
-          game.changePlayerName(playerIndex, input.value); 
-          newLabel.onclick = changeNames;
-          newLabel.textContent = game.getPlayerName(playerIndex);
-          input.replaceWith(newLabel);
+            const newName = input.value === "" ? prevLabel.textContent : input.value;
+            const newLabel = document.createElement(prevLabel.tagName.toLowerCase());
+            newLabel.setAttribute("data-player", playerIndex)
+            game.changePlayerName(playerIndex, newName); 
+            newLabel.onclick = changeNames;
+            newLabel.textContent = game.getPlayerName(playerIndex);
+            input.replaceWith(newLabel);
         };
       
         input.addEventListener('blur', save, {
