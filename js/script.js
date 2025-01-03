@@ -101,16 +101,18 @@ function domManipulation() {
     }
 
     const changeNames = (e) => {
+        const playerIndex = e.target.dataset.player;
         const prevLabel = e.target;
         const input = document.createElement("input");
         input.setAttribute("value", prevLabel.textContent);
         prevLabel.replaceWith(input);
       
         const save = function() {
-          const previous = document.createElement(prevLabel.tagName.toLowerCase());
-          previous.onclick = changeNames;
-          previous.textContent = input.value;
-          input.replaceWith(previous);
+          const newLabel = document.createElement(prevLabel.tagName.toLowerCase());
+          game.changePlayerName(playerIndex, input.value); 
+          newLabel.onclick = changeNames;
+          newLabel.textContent = input.value;
+          input.replaceWith(newLabel);
         };
       
         input.addEventListener('blur', save, {
@@ -120,8 +122,9 @@ function domManipulation() {
         input.focus();
     }
 
-    playerNames.forEach((name) => {
-        name.addEventListener("click",changeNames);
+    playerNames.forEach((playerName) => {
+        playerIndex = playerName.dataset.player;
+        playerName.addEventListener("click",changeNames);
     })
 
     return { updateDomBoard, updateText}
@@ -150,7 +153,9 @@ function gameController() {
         activePlayer = activePlayer === players[0] ? players[1] : players[0];
     }
 
-    const changePlayerName = (playerNum, newName) => players[playerNum].name = newName;
+    const changePlayerName = (playerNum, newName) => {
+        players[playerNum].name = newName;
+    }
 
     const getActivePlayer = () => activePlayer;
 
