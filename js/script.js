@@ -109,6 +109,7 @@ function domManipulation() {
       
         const save = function() {
           const newLabel = document.createElement(prevLabel.tagName.toLowerCase());
+          newLabel.setAttribute("data-player", playerIndex)
           game.changePlayerName(playerIndex, input.value); 
           newLabel.onclick = changeNames;
           newLabel.textContent = game.getPlayerName(playerIndex);
@@ -116,7 +117,7 @@ function domManipulation() {
         };
       
         input.addEventListener('blur', save, {
-          once: true,
+            once: true,
         });
 
         input.focus();
@@ -154,10 +155,12 @@ function gameController() {
     }
 
     const changePlayerName = (index, newName) => {
+        console.log(getPlayerName(index))
         players[index].name = newName;
         if (players[index] === getActivePlayer()){
             dom.updateText(`${getActivePlayer().name}'s turn`);
         }
+        console.log(getPlayerName(index))
     }
 
     const getPlayerName = (index) => players[index].name;
