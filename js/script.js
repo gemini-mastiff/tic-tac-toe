@@ -56,7 +56,7 @@ function domManipulation() {
     const domBoard = document.querySelector("#board");
     const playerNames = document.querySelectorAll("[data-editable]")
     
-    const board = Gameboard();
+    // const board = Gameboard();
 
     const generateDomCell = (cell, index) => {
         const domCell = document.createElement("div");
@@ -126,7 +126,6 @@ function domManipulation() {
     }
 
     playerNames.forEach((playerName) => {
-        playerIndex = playerName.dataset.player;
         playerName.addEventListener("click",changeNames);
     })
 
@@ -197,9 +196,7 @@ function gameController() {
         const colWinThr = [2, 5, 8].map(x => boardWithCellValues[x]);
         const diaWinOne = [0, 4, 8].map(x => boardWithCellValues[x]);
         const diaWinTwo = [2, 4, 6].map(x => boardWithCellValues[x]);
-        if (!boardWithCellValues.includes(0)){
-            return "tie";
-        } else if (rowWinOne.every(token)
+         if (rowWinOne.every(token)
             || rowWinTwo.every(token)
             || rowWinThr.every(token)
             || colWinOne.every(token)
@@ -208,6 +205,8 @@ function gameController() {
             || diaWinOne.every(token)
             || diaWinTwo.every(token)) {
             return player.name;
+        } else if (!boardWithCellValues.includes(0)){
+            return "tie";
         } else {
             return;
         }
