@@ -89,14 +89,13 @@ function domManipulation() {
         allDomCells.forEach((domCell) => {
             const index = domCell.dataset.index;
             domCell.addEventListener("click", () => {
-                console.log(index)
                 game.playRound(index)
                });
            }); 
     }
 
     const updateText = (text, v = false) => {
-        // victory will only update when called the argument is passed
+        // victory will only update when called the optional argument is passed
         !v ? commentary.textContent = text : victory.textContent = text;
     }
 
@@ -116,9 +115,11 @@ function gameController() {
         {
             name : "Player 2",
             token : 2,
-        }];
+        }
+    ];
 
-    let activePlayer = players[0];
+    // randomly selects the first player
+    let activePlayer = players[Math.floor(Math.random()*2)];
 
     const switchPlayer = () => {
         activePlayer = activePlayer === players[0] ? players[1] : players[0];
