@@ -77,6 +77,40 @@ h1{
     font-size: 1.2rem;
 }
 
+/* GAME */
+
+.game-wrapper{
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+/* PLAYER INTERFACE */
+
+.player-wrapper{
+    width: 500px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.player-card{
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.player-card p{
+    text-transform: uppercase;
+}
+
+.player-card img{
+    height: 50px;
+}
+
+.player-card img[src="svg/circle-outline.svg"]{
+    height: 44px;
+}
+
 /* BOARD */
 
 .grid-wrapper{
