@@ -54,6 +54,7 @@ function domManipulation() {
     const commentary = document.querySelector("#commentary");
     const victory = document.querySelector("#victory")
     const domBoard = document.querySelector("#board");
+    const playerNames = document.querySelectorAll("[data-editable]")
     
     const board = Gameboard();
 
@@ -99,6 +100,30 @@ function domManipulation() {
         !v ? commentary.textContent = text : victory.textContent = text;
     }
 
+    const changeNames = (e) => {
+        const prevLabel = e.target;
+        const input = document.createElement("input");
+        input.setAttribute("value", prevLabel.textContent);
+        prevLabel.replaceWith(input);
+      
+        const save = function() {
+          const previous = document.createElement(prevLabel.tagName.toLowerCase());
+          previous.onclick = changeNames;
+          previous.textContent = input.value;
+          input.replaceWith(previous);
+        };
+      
+        input.addEventListener('blur', save, {
+          once: true,
+        });
+
+        input.focus();
+    }
+
+    playerNames.forEach((name) => {
+        name.addEventListener("click",changeNames);
+    })
+
     return { updateDomBoard, updateText}
 
 }
@@ -125,12 +150,14 @@ function gameController() {
         activePlayer = activePlayer === players[0] ? players[1] : players[0];
     }
 
+    const changePlayerName = (playerNum, newName) => players[playerNum].name = newName;
+
     const getActivePlayer = () => activePlayer;
 
     const printNewRound = () => {
         board.printBoard();
         dom.updateDomBoard(board);
-        dom.updateText(`${getActivePlayer().name}'s turn:`);
+        dom.updateText(`${getActivePlayer().name}'s turn`);
     }
 
     const gameOver = (result) => {
@@ -193,7 +220,7 @@ function gameController() {
 
     printNewRound();
 
-    return { getActivePlayer, playRound }
+    return { getActivePlayer, playRound, changePlayerName }
 }
 
 const game = gameController()
