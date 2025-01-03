@@ -230,7 +230,7 @@ function gameController() {
 
     printNewRound();
 
-    return { getPlayerName, getActivePlayer, playRound, changePlayerName }
+    return { getPlayerName, playRound, changePlayerName }
 }
 
 const game = gameController()
