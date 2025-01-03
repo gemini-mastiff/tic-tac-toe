@@ -155,6 +155,9 @@ function gameController() {
 
     const changePlayerName = (playerNum, newName) => {
         players[playerNum].name = newName;
+        if (players[playerNum] === getActivePlayer()){
+            dom.updateText(`${getActivePlayer().name}'s turn`);
+        }
     }
 
     const getActivePlayer = () => activePlayer;
