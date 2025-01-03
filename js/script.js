@@ -111,7 +111,7 @@ function domManipulation() {
           const newLabel = document.createElement(prevLabel.tagName.toLowerCase());
           game.changePlayerName(playerIndex, input.value); 
           newLabel.onclick = changeNames;
-          newLabel.textContent = input.value;
+          newLabel.textContent = game.getPlayerName(playerIndex);
           input.replaceWith(newLabel);
         };
       
@@ -153,12 +153,14 @@ function gameController() {
         activePlayer = activePlayer === players[0] ? players[1] : players[0];
     }
 
-    const changePlayerName = (playerNum, newName) => {
-        players[playerNum].name = newName;
-        if (players[playerNum] === getActivePlayer()){
+    const changePlayerName = (index, newName) => {
+        players[index].name = newName;
+        if (players[index] === getActivePlayer()){
             dom.updateText(`${getActivePlayer().name}'s turn`);
         }
     }
+
+    const getPlayerName = (index) => players[index].name;
 
     const getActivePlayer = () => activePlayer;
 
@@ -228,7 +230,7 @@ function gameController() {
 
     printNewRound();
 
-    return { getActivePlayer, playRound, changePlayerName }
+    return { getPlayerName, getActivePlayer, playRound, changePlayerName }
 }
 
 const game = gameController()
