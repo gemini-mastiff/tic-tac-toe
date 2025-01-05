@@ -54,7 +54,7 @@ function domManipulation() {
     const commentary = document.querySelector("#commentary");
     const domBoard = document.querySelector("#board");
     const playerNames = document.querySelectorAll("[data-editable]")
-    
+
     const generateDomCell = (cell, index) => {
         const domCell = document.createElement("div");
         domCell.classList.add("cell")
@@ -88,8 +88,8 @@ function domManipulation() {
             const index = domCell.dataset.index;
             domCell.addEventListener("click", () => {
                 game.playRound(index)
-               });
-           }); 
+            });
+        }); 
     }
 
     const updateText = (text) => {
@@ -129,17 +129,17 @@ function domManipulation() {
 
 }
 
-function gameController() {
+function gameController(playerOneName, playerTwoName) {
     const board = Gameboard();
     const dom = domManipulation();
 
     const players = [
         {
-            name : "Player 1",
+            name : playerOneName,
             token : 1,
         },
         {
-            name : "Player 2",
+            name : playerTwoName,
             token : 2,
         }
     ];
@@ -229,9 +229,16 @@ function gameController() {
         printNewRound();
     }
 
-    printNewRound();
-
-    return { getPlayerName, playRound, changePlayerName }
+    return { getPlayerName, playRound, changePlayerName, printNewRound }
 }
 
-const game = gameController()
+let game = gameController()
+
+const startBtn = document.querySelector("#startBtn")
+startBtn.addEventListener("click", () => {
+    const playerOneName = document.querySelector(`[data-player="0"]`).textContent;
+    const playerTwoName = document.querySelector(`[data-player="1"]`).textContent;
+    game = gameController(playerOneName, playerTwoName)
+    game.printNewRound();
+    startBtn.textContent = "Restart!";
+});
