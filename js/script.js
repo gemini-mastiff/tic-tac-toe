@@ -202,21 +202,22 @@ function gameController(playerOneName, playerTwoName) {
             }
             // The players switch only when a token has been dropped
             switchPlayer();
-            printNewRound()
+            printNewRound();
         } else {
             printNewRound(`Invalid! This space is already taken!\r\n${getActivePlayer().name}'s turn`);
         }
     }
 
-    return { getPlayerName, playRound, changePlayerName, printNewRound }
+    return { getPlayerName, playRound, changePlayerName, printNewRound };
 }
 
-// let game = gameController()
-
-const startBtn = document.querySelector("#startBtn")
+const startBtn = document.querySelector("#startBtn");
+// each startBtn clicked, a new instance of gameController() is called
 startBtn.addEventListener("click", () => {
     const playerOneName = document.querySelector(`[data-player="0"]`).textContent;
     const playerTwoName = document.querySelector(`[data-player="1"]`).textContent;
+    // passing the current names into the function keeps the commentary
+    // consistent after restarts
     game = gameController(playerOneName, playerTwoName);
     game.printNewRound();
     startBtn.textContent = "Restart!";
