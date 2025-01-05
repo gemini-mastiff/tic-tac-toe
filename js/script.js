@@ -44,12 +44,13 @@ function domManipulation() {
         const domCell = document.createElement("div");
         domCell.classList.add("cell");
         domCell.setAttribute("data-index", index);
+        // if the cell has value, it creates and appends the relevant image
         if (cell) {
         const img = document.createElement("img");
         const src = cell === 1 ? "svg/close.svg" : "svg/circle-outline.svg";
         img.setAttribute("src", src);
         domCell.appendChild(img)
-    }
+        }
         domBoard.appendChild(domCell);
     }
 
@@ -65,6 +66,7 @@ function domManipulation() {
         eraseDomBoard();
         boardWithCellValues.forEach(generateDomCell);
 
+        // Each time a round is played, the board is refreshed, and allDomCells must be selected again
         const allDomCells = document.querySelectorAll(".cell");
         allDomCells.forEach((domCell) => {
             const index = domCell.dataset.index;
@@ -144,9 +146,9 @@ function gameController(playerOneName, playerTwoName) {
 
     const getActivePlayer = () => activePlayer;
 
-    const printNewRound = () => {
+    const printNewRound = (text = `${getActivePlayer().name}'s turn`) => {
         dom.updateDomBoard(board);
-        dom.updateText(`${getActivePlayer().name}'s turn`);
+        dom.updateText(text);
     }
 
     const gameOver = (result) => {
@@ -200,11 +202,10 @@ function gameController(playerOneName, playerTwoName) {
             }
             // The players switch only when a token has been dropped
             switchPlayer();
+            printNewRound()
         } else {
-            dom.updateText(`Invalid! This space is already taken!\r\n${getActivePlayer().name}'s turn`);
-            return;
+            printNewRound(`Invalid! This space is already taken!\r\n${getActivePlayer().name}'s turn`);
         }
-        printNewRound();
     }
 
     return { getPlayerName, playRound, changePlayerName, printNewRound }
