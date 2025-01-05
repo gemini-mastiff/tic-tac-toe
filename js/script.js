@@ -21,23 +21,8 @@ function Gameboard() {
         const cell = board[index];
         cell.changeValue(token);
     }
-    
-    const printBoard = () => {
-        const boardWithCellValues = board.map(cell => cell.getValue());
-        let boardString = '';
-        let counter = 0;
-        boardWithCellValues.forEach((i) => {
-            boardString += i;
-            counter++;
-            if (counter === 3){
-                boardString += `\n`;
-                counter = 0;
-            }
-        });
-        console.log(boardString);
-    }
 
-    return { getBoard, validateCell, placeToken, printBoard};
+    return { getBoard, validateCell, placeToken};
 }
 
 function Cell() {
@@ -47,7 +32,7 @@ function Cell() {
 
     const getValue = () => value;
 
-    return { getValue, changeValue }
+    return { getValue, changeValue };
 }
 
 function domManipulation() {
@@ -57,17 +42,14 @@ function domManipulation() {
 
     const generateDomCell = (cell, index) => {
         const domCell = document.createElement("div");
-        domCell.classList.add("cell")
+        domCell.classList.add("cell");
         domCell.setAttribute("data-index", index);
-        if (cell === 1) {
-            const cross = document.createElement("img");
-            cross.setAttribute("src", "svg/close.svg");
-            domCell.appendChild(cross);
-        } else if (cell === 2) {
-            const nought = document.createElement("img");
-            nought.setAttribute("src", "svg/circle-outline.svg");
-            domCell.appendChild(nought);
-        }
+        if (cell) {
+        const img = document.createElement("img");
+        const src = cell === 1 ? "svg/close.svg" : "svg/circle-outline.svg";
+        img.setAttribute("src", src);
+        domCell.appendChild(img)
+    }
         domBoard.appendChild(domCell);
     }
 
@@ -87,13 +69,13 @@ function domManipulation() {
         allDomCells.forEach((domCell) => {
             const index = domCell.dataset.index;
             domCell.addEventListener("click", () => {
-                game.playRound(index)
+                game.playRound(index);
             });
         }); 
     }
 
     const updateText = (text) => {
-        commentary.textContent = text
+        commentary.textContent = text;
     }
 
     const changeNames = (e) => {
@@ -102,7 +84,7 @@ function domManipulation() {
         const input = document.createElement("input");
         input.setAttribute("value", prevLabel.textContent);
         prevLabel.replaceWith(input);
-        input.select()
+        input.select();
       
         const save = function() {
             const newName = input.value === "" ? prevLabel.textContent : input.value;
@@ -123,9 +105,9 @@ function domManipulation() {
 
     playerNames.forEach((playerName) => {
         playerName.addEventListener("click",changeNames);
-    })
+    });
 
-    return { updateDomBoard, updateText}
+    return { updateDomBoard, updateText};
 
 }
 
@@ -152,12 +134,10 @@ function gameController(playerOneName, playerTwoName) {
     }
 
     const changePlayerName = (index, newName) => {
-        console.log(getPlayerName(index))
         players[index].name = newName;
         if (players[index] === getActivePlayer()){
             dom.updateText(`${getActivePlayer().name}'s turn`);
         }
-        console.log(getPlayerName(index))
     }
 
     const getPlayerName = (index) => players[index].name;
@@ -165,13 +145,11 @@ function gameController(playerOneName, playerTwoName) {
     const getActivePlayer = () => activePlayer;
 
     const printNewRound = () => {
-        board.printBoard();
         dom.updateDomBoard(board);
         dom.updateText(`${getActivePlayer().name}'s turn`);
     }
 
     const gameOver = (result) => {
-        board.printBoard();
         dom.updateDomBoard(board);
         let gameOverText = `Game Over!\r\n`
         if (result === "tie") {
@@ -214,7 +192,6 @@ function gameController(playerOneName, playerTwoName) {
         // cell, they can take another turn and select a different cell
         const validation = board.validateCell(index);
         if (validation === true) {
-            dom.updateText(``, true)
             board.placeToken(index, getActivePlayer().token);
             const winner = checkWinner(getActivePlayer());
             if (winner){
@@ -224,7 +201,8 @@ function gameController(playerOneName, playerTwoName) {
             // The players switch only when a token has been dropped
             switchPlayer();
         } else {
-            dom.updateText(`Invalid! This space is already taken!`, true);
+            dom.updateText(`Invalid! This space is already taken!\r\n${getActivePlayer().name}'s turn`);
+            return;
         }
         printNewRound();
     }
@@ -232,13 +210,13 @@ function gameController(playerOneName, playerTwoName) {
     return { getPlayerName, playRound, changePlayerName, printNewRound }
 }
 
-let game = gameController()
+// let game = gameController()
 
 const startBtn = document.querySelector("#startBtn")
 startBtn.addEventListener("click", () => {
     const playerOneName = document.querySelector(`[data-player="0"]`).textContent;
     const playerTwoName = document.querySelector(`[data-player="1"]`).textContent;
-    game = gameController(playerOneName, playerTwoName)
+    game = gameController(playerOneName, playerTwoName);
     game.printNewRound();
     startBtn.textContent = "Restart!";
 });
